@@ -167,7 +167,9 @@ class Pathname
       children.each do |entry|
         next if entry.basename.to_s[0] == "." && !options[:hidden]
         yield entry unless entry.directory? && !options[:all]
-        entry.visit(:all => options[:all]) { |sub_entry| yield sub_entry } if entry.directory?
+        entry.visit(:all => options[:all], :hidden => options[:hidden]) { |sub_entry|
+          yield sub_entry
+        } if entry.directory?
       end
     else
       yield self
